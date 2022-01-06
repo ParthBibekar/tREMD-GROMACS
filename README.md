@@ -1,4 +1,4 @@
-# tREMD
+# tREMD-GROMACS
 Script to run Replica Exchange Molecular Dynamics simulation in GROMACS
 
 You can change your temperatures by editing the `temps` list in `tREMD.py`
