@@ -84,8 +84,8 @@ def run_nvt():
         l.append("gmx_mpi grompp -f " + str(temps[i]) + "_nvt.mdp " + "-p topol.top -c em.gro -r em.gro -o " + str(temps[i]) + "_nvt.tpr " + "&&")
         l.append("gmx_mpi mdrun -v -deffnm " + str(temps[i]) + "_nvt" + " &&")
     #print(l)
-    for command in l:
-        os.system(l)
+    for command in range(len(l)):
+        os.system(l[command])
 
 def run_npt():
     l = []
@@ -93,8 +93,8 @@ def run_npt():
         l.append("gmx_mpi grompp -f " + str(temps[i]) + "_npt.mdp " + "-p topol.top -c " + str(temps[i]) + "_nvt.gro" + " -r " +  str(temps[i]) + "_nvt.gro " + "-o " + str(temps[i]) + "_npt.tpr " + "&&")
         l.append("gmx_mpi mdrun -v -deffnm " + str(temps[i]) + "_npt" + " &&")
     #print(l)
-    for command in l:
-        os.system(l)
+    for command in range(len(l)):
+        os.system(l[command])
 
 def run_remd():
     l = []
@@ -104,8 +104,8 @@ def run_remd():
         #l.append("gmx_mpi mdrun -v -deffnm " + str(temps[i]) + "_npt" + " &&")
         os.system("mkdir " + str(temps[i]) + "_remd &&")
     #print(l)
-    for command in l:
-        os.system(l)
+    for command in range(len(l)):
+        os.system(l[command])
     for i in range(len(temps)):
         os.system("mv " + str(temps[i]) + "_remd.tpr " + str(temps[i]) + "_remd" + " && " + "cd " + str(temps[i]) + "_remd" + " && " + "mv " + str(temps[i]) + "_remd.tpr" + " remd.tpr" + "&& cd ..")
         #g.append("mv " + str(temps[i]) + "_remd.tpr " + str(temps[i]) + "_remd" + " && " + "cd " + str(temps[i]) + "_remd " + "&& " + "mv " + str(temps[i]) + "_remd.tpr " + "remd.tpr " + "&& cd ..")
