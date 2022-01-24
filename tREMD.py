@@ -98,19 +98,33 @@ def run_npt():
 
 def run_remd():
     l = []
-    #g = []
+    g = []
+    f = []
+
     for i in range(len(temps)):
-        l.append("gmx_mpi grompp -f " + str(temps[i]) + "_md.mdp " + "-p topol.top -c " + str(temps[i]) + "_npt.gro " + "-o " + str(temps[i]) + "_remd.tpr " + "-maxwarn 10 " + "&&")
-        #l.append("gmx_mpi mdrun -v -deffnm " + str(temps[i]) + "_npt" + " &&")
-        os.system("mkdir " + str(temps[i]) + "_remd &&")
-    #print(l)
+        l.append("gmx_mpi grompp -f " + str(temps[i]) + "_md.mdp " + "-p topol.top -c " + str(temps[i]) + "_npt.gro -r "+ str(temps[i]) + "_npt.gro " + "-t " + str(temps[i]) + "_npt.cpt -o " + str(temps[i]) + "_remd.tpr " + "-maxwarn 10 " + "&&")
+        #l.append("gmx_mpi mdrun -v -deffnm " + str(temps[i]) + "_remd" + " &&")
+        f.append("mkdir " + str(temps[i]) + "_remd &&")
+        #os.system("mkdir " + str(temps[i]) + "_remd &&")
+
     for command in range(len(l)):
-        os.system(l[command])
+        #os.system(l[command])
+        print(l[command])
+    
+    for command in range(len(f)):
+        os.system(f[command])
+        #print(f[command])
+
     for i in range(len(temps)):
-        os.system("mv " + str(temps[i]) + "_remd.tpr " + str(temps[i]) + "_remd" + " && " + "cd " + str(temps[i]) + "_remd" + " && " + "mv " + str(temps[i]) + "_remd.tpr" + " remd.tpr" + "&& cd ..")
-        #g.append("mv " + str(temps[i]) + "_remd.tpr " + str(temps[i]) + "_remd" + " && " + "cd " + str(temps[i]) + "_remd " + "&& " + "mv " + str(temps[i]) + "_remd.tpr " + "remd.tpr " + "&& cd ..")
+        #os.system("mv " + str(temps[i]) + "_remd.tpr " + str(temps[i]) + "_remd" + " && " + "cd " + str(temps[i]) + "_remd" + " && " + "mv " + str(temps[i]) + "_remd.tpr" + " remd.tpr" + "&& cd ..")
+        g.append("mv " + str(temps[i]) + "_remd.tpr " + str(temps[i]) + "_remd" + " && " + "cd " + str(temps[i]) + "_remd " + "&& " + "mv " + str(temps[i]) + "_remd.tpr " + "remd.tpr " + "&& cd .. &&")
     #print(g)
 
+    for i in range(len(g)):
+        os.system(g[i])
+        #print(g[i])
+        
+   
 write_nvt()
 write_npt()
 write_md()
