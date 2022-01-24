@@ -123,6 +123,8 @@ def run_remd():
     for i in range(len(g)):
         os.system(g[i])
         #print(g[i])
+    
+    os.system("gmx_mpi mdrun -v -s remd_40ns.tpr -multidir *_remd -deffnm remd_40ns -replex 1000")
         
    
 write_nvt()
