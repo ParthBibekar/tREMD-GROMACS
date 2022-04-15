@@ -1,4 +1,4 @@
-title                   = Amberff99SB*-ILDN hIAPP WT 2PF NPT equilibration 
+title                   = md production run 
 ; Run parameters
 integrator              = md        ; leap-frog integrator
 nsteps                  = 10000000   ; 0.002 * 10000000 = 20000 ps (20 ns)

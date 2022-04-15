@@ -1,4 +1,4 @@
-title                   = Amberff99SB*-ILDN hIAPP WT 2pf NVT equilibration 
+title                   = NVT equilibration 
 define                  = -DPOSRES  ; position restrain the protein
 ; Run parameters
 integrator              = md        ; leap-frog integrator

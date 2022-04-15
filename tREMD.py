@@ -20,14 +20,14 @@ def write_nvt():
     l = []
 
     for i in range(len(temps)):
-        l.append("ref_t                   =      " + str(temps[i]) + "     " + str(temps[i]) + "\n")
+        l.append("ref_t                   =       {0}       {0}  \n".format(str(temps[i])))
 
     for i in range(len(temps)):
-        f = open(str(temps[i]) + "_nvt.mdp","w")
+        f = open("{0}_nvt.mdp".format(str(temps[i])),"w")
 
     for i in range(len(l)):
         for j in range(len(temps)):
-            f = open(str(temps[j]) + "_nvt.mdp","w")
+            f = open("{0}_nvt.mdp".format(str(temps[j])),"w")
             for k in range(len(nvt_1)):
                 f.write(nvt_1[k])
             f.write(l[j])
@@ -42,14 +42,14 @@ def write_npt():
     l = []
 
     for i in range(len(temps)):
-        l.append("ref_t                   =      " + str(temps[i]) + "     " + str(temps[i]) + "\n")
+        l.append("ref_t                   =       {0}       {0}  \n".format(str(temps[i])))
 
     for i in range(len(temps)):
-        f = open(str(temps[i]) + "_npt.mdp","w")
+        f = open("{0}_npt.mdp".format(str(temps[i])),"w")
 
     for i in range(len(l)):
         for j in range(len(temps)):
-            f = open(str(temps[j]) + "_npt.mdp","w")
+            f = open("{0}_npt.mdp".format(str(temps[j])),"w")
             for k in range(len(npt_1)):
                 f.write(npt_1[k])
             f.write(l[j])
@@ -59,19 +59,19 @@ def write_npt():
 def write_md():
     md = open("md0.mdp","r")
     md_lines = md.readlines()
-    md_1 = md_lines[0:32]
-    md_2 = md_lines[33:]
+    md_1 = md_lines[0:33]
+    md_2 = md_lines[34:]
     l = []
 
     for i in range(len(temps)):
-        l.append("ref_t                   =      " + str(temps[i]) + "     " + str(temps[i]) + "\n")
+        l.append("ref_t                   =       {0}       {0}  \n".format(str(temps[i])))
 
     for i in range(len(temps)):
-        f = open(str(temps[i]) + "_md.mdp","w")
+        f = open("{0}_md.mdp".format(str(temps[i])),"w")
 
     for i in range(len(l)):
         for j in range(len(temps)):
-            f = open(str(temps[j]) + "_md.mdp","w")
+            f = open("{0}_md.mdp".format(str(temps[j])),"w")
             for k in range(len(md_1)):
                 f.write(md_1[k])
             f.write(l[j])
@@ -81,20 +81,22 @@ def write_md():
 def run_nvt():
     l = []
     for i in range(len(temps)):
-        l.append("gmx_mpi grompp -f " + str(temps[i]) + "_nvt.mdp " + "-p topol.top -c em.gro -r em.gro -o " + str(temps[i]) + "_nvt.tpr " + "&&")
-        l.append("gmx_mpi mdrun -v -deffnm " + str(temps[i]) + "_nvt" + " &&")
+        l.append("gmx_mpi grompp -f {0}_nvt.mdp -p topol.top -c em.gro -r em.gro -o {0}_nvt.tpr &&".format(str(temps[i])))
+        l.append("gmx_mpi mdrun -v -deffnm {0}_nvt &&".format(str(temps[i])))
     #print(l)
     for command in range(len(l)):
-        os.system(l[command])
+        #os.system(l[command])
+        print(l[command])
 
 def run_npt():
     l = []
     for i in range(len(temps)):
-        l.append("gmx_mpi grompp -f " + str(temps[i]) + "_npt.mdp " + "-p topol.top -c " + str(temps[i]) + "_nvt.gro" + " -r " +  str(temps[i]) + "_nvt.gro " + "-o " + str(temps[i]) + "_npt.tpr " + "&&")
-        l.append("gmx_mpi mdrun -v -deffnm " + str(temps[i]) + "_npt" + " &&")
+        l.append("gmx_mpi grompp -f {0}_npt.mdp -p topol.top -c {0}_nvt.gro -r {0}_nvt.gro -o {0}_npt.tpr &&".format(str(temps[i])))
+        l.append("gmx_mpi mdrun -v -deffnm {0}_npt &&".format(str(temps[i])))
     #print(l)
     for command in range(len(l)):
-        os.system(l[command])
+        #os.system(l[command])
+        print(l[command])
 
 def run_remd():
     l = []
@@ -102,14 +104,12 @@ def run_remd():
     f = []
 
     for i in range(len(temps)):
-        l.append("gmx_mpi grompp -f " + str(temps[i]) + "_md.mdp " + "-p topol.top -c " + str(temps[i]) + "_npt.gro -r "+ str(temps[i]) + "_npt.gro " + "-t " + str(temps[i]) + "_npt.cpt -o " + str(temps[i]) + "_remd.tpr " + "-maxwarn 10 " + "&&")
-        #l.append("gmx_mpi mdrun -v -deffnm " + str(temps[i]) + "_remd" + " &&")
-        f.append("mkdir " + str(temps[i]) + "_remd &&")
-        #os.system("mkdir " + str(temps[i]) + "_remd &&")
+        l.append("gmx_mpi grompp -f {0}_md.mdp -p topol.top -c {0}_npt.gro -r {0}_npt.gro -t {0}_npt.cpt -o {0}_remd.tpr -maxwarn 10 &&".format(str(temps[i])))
+        f.append("mkdir {0}_remd &&".format(str(temps[i])))
 
     for command in range(len(l)):
-        #os.system(l[command])
-        print(l[command])
+        os.system(l[command])
+        #print(l[command])
     
     for command in range(len(f)):
         os.system(f[command])
@@ -117,14 +117,14 @@ def run_remd():
 
     for i in range(len(temps)):
         #os.system("mv " + str(temps[i]) + "_remd.tpr " + str(temps[i]) + "_remd" + " && " + "cd " + str(temps[i]) + "_remd" + " && " + "mv " + str(temps[i]) + "_remd.tpr" + " remd.tpr" + "&& cd ..")
-        g.append("mv " + str(temps[i]) + "_remd.tpr " + str(temps[i]) + "_remd" + " && " + "cd " + str(temps[i]) + "_remd " + "&& " + "mv " + str(temps[i]) + "_remd.tpr " + "remd.tpr " + "&& cd .. &&")
-    #print(g)
+        g.append("mv {0}_remd.tpr {0}_remd && cd {0}_remd && mv {0}_remd.tpr remd.tpr cd .. &&".format(str(temps[i])))
 
     for i in range(len(g)):
         os.system(g[i])
         #print(g[i])
     
     os.system("gmx_mpi mdrun -v -s remd.tpr -multidir *_remd -deffnm remd -replex 1000")
+    #print("gmx_mpi mdrun -v -s remd.tpr -multidir *_remd -deffnm remd -replex 1000")
         
    
 write_nvt()
